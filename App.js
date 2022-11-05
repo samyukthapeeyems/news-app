@@ -27,7 +27,7 @@ export default function App() {
         tabBarActiveTintColor: "#00115e",
         tabBarInactiveTintColor: "#5b70cf"
       }}>
-        <Tab.Screen name="Home" options = {{headerShown: false}} component={HomeScreen} />
+        <Tab.Screen name="HomeTab" options = {{headerShown: false}} component={HomeScreen} />
         <Tab.Screen name="Search" component={Search} />
       </Tab.Navigator>
     </NavigationContainer>

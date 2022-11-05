@@ -16,6 +16,7 @@ const Article = (props) => {
             {/* title */}
             <TouchableOpacity onPress={() => {
                 props.navigation.navigate('ArticleDetailed', {
+                    uri: props.urlToImage,
                     title: props.title,
                     description: props.description,
                     author: props.author,
