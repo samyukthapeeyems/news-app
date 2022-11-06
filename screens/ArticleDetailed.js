@@ -1,13 +1,19 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image, SafeAreaView } from 'react-native';
 import moment from "moment";
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const ArticleDetailed = ({ route }) => {
-    let { title, description, sourceName, author, publishedAt } = route.params;
+    let { title, description, sourceName, author, publishedAt, uri} = route.params;
 
     return (
-        <SafeAreaView style={styles.container}>
+        <>
+        <Image
+                style={styles.image}
+                source={{
+                    uri: uri
+                }}
+            />
+        <View style={styles.container}>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.description}>{description}</Text>
             <View style={styles.data}>
@@ -16,7 +22,8 @@ const ArticleDetailed = ({ route }) => {
             </View>
             <Text style={styles.source}>{sourceName}</Text>
 
-        </SafeAreaView>
+        </View>
+        </>
     )
 }
 
@@ -36,6 +43,10 @@ const styles = StyleSheet.create({
         },
         backgroundColor: "#f5f5f5",
         overflow: "hidden"
+    },
+    image: {
+        height: "35%",
+        width: "100%",
     },
     title: {
         fontSize: 28,
