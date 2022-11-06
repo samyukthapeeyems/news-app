@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     container: {
         padding: 20,
         height: "100%",
-        width: "96%",
+        width: "100%",
         alignSelf: "center",
         elevation: 2,
         shadowOpacity: 0.5,
