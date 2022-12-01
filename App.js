@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from './screens/Home';
 import Search from './screens/Search';
 import ArticleDetailed from './screens/ArticleDetailed';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const Tab = createBottomTabNavigator();
@@ -14,8 +15,11 @@ const Stack = createNativeStackNavigator();
 const HomeScreen = () => {
   return(
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home} />
-      <Stack.Screen name="ArticleDetailed" component={ArticleDetailed}/>
+      <Stack.Screen name="Home" component={Home} options = {{
+        headerTitle: "News"
+      }}/>
+      <Stack.Screen name="ArticleDetailed" component={ArticleDetailed} options = {{
+      }}/>
     </Stack.Navigator>
   )
 }
@@ -25,10 +29,17 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator screenOptions={{
         tabBarActiveTintColor: "#00115e",
-        tabBarInactiveTintColor: "#5b70cf"
       }}>
-        <Tab.Screen name="HomeTab" options = {{headerShown: false}} component={HomeScreen} />
-        <Tab.Screen name="Search" component={Search} />
+        <Tab.Screen name="HomeTab" options = {{
+          headerShown: false,
+          tabBarLabel: "Home",
+          tabBarIcon: () => <Ionicons name="newspaper-outline" size={24} color="black" />,
+          }} 
+          component={HomeScreen} />
+        <Tab.Screen name="Search" component={Search} options={{
+          tabBarLabel: "Search",
+          tabBarIcon: () => <Ionicons name="search" size={24} color="black" />,
+        }}/>
       </Tab.Navigator>
     </NavigationContainer>
     

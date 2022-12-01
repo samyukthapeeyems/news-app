@@ -1,64 +1,64 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Text, View, StyleSheet, FlatList, ScrollView } from 'react-native';
-import { get } from "react-native/Libraries/Utilities/PixelRatio";
+import { Text, View, StyleSheet, FlatList, ScrollView, TouchableOpacity } from 'react-native';
 import Article from "../components/Article";
+import getArticles from "../functions/articlesApi"
 
 
 const Home = ({ navigation }) => {
 
     const [articles, setArticles] = useState([]);
-    const getNews = async () => {
-        try {
-            const response = await axios.get('https://newsapi.org/v2/top-headlines?country=in&apiKey=75cd8903b64846129096b0138166a05e',
-                {
-                    params: {
-                        pageSize: 50
-                    }
-                })
-            setArticles(response.data.articles);
-        }
-        catch (e) {
-            console.log(e);
-        }
+    const [category, setCategory] = useState("all");
+
+    async function getNews(params) {
+        let result = await getArticles(params);
+        setArticles(result);
     }
 
+
     useEffect(() => {
-        getNews();
-    }, [])
+        let params = new URLSearchParams();
+        params.append("pageSize", "50");
+        if(category != "all")
+            params.append("category", category);
+        getNews(params);
+    }, [category])
+
+    const categories = ["All", "Technology", "Business", "Entertainment", "Health", "Science", "Sports"];
 
     return (
         <>
-        <ScrollView
-        horizontal={true} style={styles.category}>
-        <Text>Tech</Text>
-        <Text>Business</Text>
-        <Text>Entertainment</Text>
-        <Text>Business</Text>
-        <Text>Business</Text>
-       
+            <View style={{ height: "6%" }}>
+                <ScrollView
+                    horizontal={true} style={styles.category}>
+                    {
+                        categories.map(category => <TouchableOpacity key={category} style={styles.button} onPress={() => setCategory(category.toLowerCase())}>
+                            <Text style={styles.CategoryText}>{category}</Text>
+                        </TouchableOpacity>
+                        )
+                    }
+                </ScrollView>
+            </View>
 
-    </ScrollView>
 
-        <View style={styles.container}>
+            <View style={styles.container}>
 
-            <FlatList
-                data={articles}
-                renderItem={({ item }) => {
-                    return (<Article
-                        navigation={navigation}
-                        urlToImage={item.urlToImage}
-                        title={item.title}
-                        description={item.description}
-                        author={item.author}
-                        publishedAt={item.publishedAt}
-                        sourceName={item.source.name}
-                    />)
-                }}
-                keyExtractor={(item) => item.title}
-            />
+                <FlatList
+                    data={articles}
+                    renderItem={({ item }) => {
+                        return (<Article
+                            navigation={navigation}
+                            urlToImage={item.urlToImage}
+                            title={item.title}
+                            description={item.description}
+                            author={item.author}
+                            publishedAt={item.publishedAt}
+                            sourceName={item.source.name}
+                        />)
+                    }}
+                    keyExtractor={(item) => item.title}
+                />
 
-        </View>
+            </View>
         </>
     )
 }
@@ -71,8 +71,19 @@ const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
     },
     category: {
-        backgroundColor: "red",
+        // backgroundColor: "red",
         margin: 0
+    },
+    button : {
+        flex: 1,
+        marginHorizontal: 15,
+        alignItems: "center",
+        justifyContent: "space-around"
+    } ,
+    CategoryText: {
+        fontSize: 18,
+        color: "#00115e",
+        fontWeight: "bold"
     }
 })
 

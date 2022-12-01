@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         fontWeight: "600"
     },
     description: {
-        fontSize: 19,
+        fontSize: 18,
         fontWeight: "400",
         marginTop: 20
     },
